@@ -6,126 +6,117 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 19:08:14 by feazeved          #+#    #+#             */
-/*   Updated: 2025/09/15 23:21:23 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/09/16 23:30:34 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef struct s_point
-{
-	int	x;
-	int	y;
-	int	z;
-}	t_point;
+#include "fdf.h"
 
-typedef struct s_map
+void	ft_error(t_data *data, char *func, char *msg)
 {
-	int	width;
-	int	height;
-	int	np;
-	t_point *points;
-}	t_map;
-
-typedef struct s_data
-{
-	t_map map;
-}	t_data;
-
-t_data	*ft_parsing(int argc, char **argv)
-{
-	t_data	*data;
-
-	if (argc != 2)
+	if (data)
+		ft_free_data(data);
+	if (func)
 	{
-		perror();
+		write(2, func, ft_strlen(func));
+		write(2, ": ", 2);
 	}
-	data = (t_data *)ft_fdf_calloc(1, sizeof(t_data));
-	ft_set_map_size(data, argv);
-	ft_set_numbers(0, data, argv);
-	return (data);
+	if (msg)
+		write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
+	exit(69);
 }
 
-int	ft_atoi(char *str)
+void	ft_free_data(t_data *data)
 {
-	int	sign;
-	int	num;
+	if (data->map.points)
+		free(data->map.points);
+	if (data->line)
+		free(data->line);
+	if (data->split)
+		ft_free_strs(data->split);
+}
+
+void	ft_free_strs(char **strs)
+{
 	int	i;
 
 	i = 0;
+	while (strs && strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(strs);
+}
+
+void	ft_parsing(t_data *data, int argc, char **argv)
+{
+	if (argc != 2)
+	{
+		ft_error(NULL, "Invalid input, you should do", "./fdf map");
+	}
+	data->line = NULL;
+	data->split = NULL;
+	ft_set_map_size(data, argv);
+	ft_set_numbers(0, data, argv);
+}
+
+void	ft_set_point(t_point *point, int y, int x, char *str)
+{
+	int	sign;
+	int	num;
+
 	sign = 1;
 	num = 0;
-	if (str[i] == '+' || str[i] == '-')
+	if (*str == '+' || *str == '-')
 	{
-		if (str[i] == '-')
+		if (*str == '-')
 			sign = -1;
-		i++;
+		str++;
 	}
-	while (str[i])
+	while (*str >= '0' && *str <= '9')
 	{
-		num = (str[i] - '0') + (num * 10);
-		i++;
+		num = (*str - '0') + (num * 10);
+		str++;
 	}
-	return (num * sign)
-}
-
-void	ft_set_point(t_point *point, int y, int x, int z)
-{
+	point->z = num * sign;
 	point->x = x;
 	point->y = y;
-	point->z = z;
+	if (!(*str))
+		return ;
 }
 
-void	ft_set_numbers(int i, t_data *data, char **argv)
+void	ft_set_numbers(int y, t_data *data, char **argv)
 {
-	int		j
+	int		x;
 	int		fd;
-	char	*line;
-	char	**split;
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		ft_error(data);
-	data->map.np = (data->map.width) * (data->map.height);
-	data->map.points = (t_point *)ft_fdf_calloc(data->map.np, sizeof(t_point));
-	while (i < data->map.height)
+		ft_error(data, "Open", strerror(errno));
+	data->map.points = ft_fdf_calloc(data->map.np, sizeof(t_point), data);
+	while (y < data->map.height)
 	{
-		j = 0;
-		line = ft_gnl(fd, data);
-		split = ft_my_split(line, ' ', data);
-		while (j < data->map.width)
+		x = 0;
+		data->line = get_next_line(fd);
+		data->split = ft_split(data->line, ' ');
+		if (!data->split || !data->line)
+			ft_error(data, "Malloc", strerror(errno));
+		while (x < data->map.width)
 		{
-			ft_set_point(&(data->map->points[i]), i, j, ft_atoi(split[j]));
-			j++;
+			ft_set_point(&data->map.points[y * data->map.width + x], y, x, data->split[x]);
+			x++;
 		}
-		i++;
+		free(data->line);
+		data->line = NULL;
+		ft_free_strs(data->split);
+		data->split = NULL;
+		y++;
 	}
 }
 
-char	*ft_gnl(int fd, t_data *data)
-{
-
-
-
-}
-
-
-char	**ft_my_split(char *str, char sep, t_data *data)
-{
-	char	**split
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	split = (char **)ft_fdf_calloc(ft_count_words(str, sep) + 1, sizeof(char *));
-	while (str[i])
-	{
-		
-
-	}
-	return (split);
-}
-
-void	*ft_fdf_calloc(int nmemb, size_t size)
+void	*ft_fdf_calloc(int nmemb, size_t size, t_data *data)
 {
 	unsigned char	*str;
 	size_t			i;
@@ -133,9 +124,9 @@ void	*ft_fdf_calloc(int nmemb, size_t size)
 
 	i = 0;
 	sum = nmemb * size;
-	data = malloc(sum);
+	str = malloc(sum);
 	if (!data)
-		ft_error(data);
+		ft_error(data, "Malloc", strerror(errno));
 	while (i < sum)
 	{
 		str[i] = 0;
@@ -172,12 +163,12 @@ void	ft_set_map_size(t_data *data, char **argv)
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		ft_error(data);
+		ft_error(data, "Open", strerror(errno));
 	height = 0;
 	width = 0;
 	while (1)
 	{
-		line = ft_gnl(fd, data);
+		line = get_next_line(fd);
 		if (!line)
 			break ;
 		if (!width)
@@ -187,12 +178,12 @@ void	ft_set_map_size(t_data *data, char **argv)
 	}
 	data->map.height = height;
 	data->map.width = width;
+	data->map.np = data->map.height * data->map.width;
 	close(fd);
 }
-
+/*
 char *onde_esta_o_afonso(time_t now)
 {
 	(void) now;
 	return ("a fumar");
-}
-
+}*/

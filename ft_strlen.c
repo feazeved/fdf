@@ -1,39 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/13 15:20:52 by feazeved          #+#    #+#             */
-/*   Updated: 2025/09/16 22:51:13 by feazeved         ###   ########.fr       */
+/*   Created: 2025/04/06 21:23:16 by feazeved          #+#    #+#             */
+/*   Updated: 2025/09/16 20:14:00 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "fdf.h"
 
-void	ft_test_parsing(t_map map)
+size_t	ft_strlen(const char *s)
 {
 	int	i;
 
 	i = 0;
-	while (i < map.np)
-	{
-		printf("point: %d ", i);
-		printf("x == %d   ", map.points[i].x);
-		printf("y == %d   ", map.points[i].y);
-		printf("z == %d\n", map.points[i].z);
+	while (s && s[i])
 		i++;
-	}
+	return (i);
 }
-
-int	main(int argc, char **argv)
+/*
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int	main(int argc, char *argv[])
 {
-	t_data	data;
+	(void) argc;
+	size_t length = 2147483648;
+	char	*str = malloc(length + 1);
 
-	ft_parsing(&data, argc, argv);
-	ft_test_parsing(data.map);
-	ft_free_data(&data);
+	if (!str)
+		return (0);
+
+	memset(str, 'a', length);
+	str[length] = '\0';
+	printf("mine: %zu\n", ft_strlen(str));
+	printf("OG: %zu\n", strlen(str));
 	return (0);
-}
+}*/
