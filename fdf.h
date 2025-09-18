@@ -42,6 +42,15 @@ typedef struct s_map
 typedef struct s_data
 {
 	t_map	map;
+  int   w_width;
+  int   w_height;
+  void  *mlx;
+  void  *mlx_win;
+  void  *img;
+  char  *addr;
+  int   bpp;
+  int   line_len;
+  int   endian;
 	char	*line;
 	char	**split;
 }			t_data;
