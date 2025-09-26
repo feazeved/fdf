@@ -6,7 +6,7 @@
 #    By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/10 18:49:50 by feazeved          #+#    #+#              #
-#    Updated: 2025/09/20 20:05:32 by feazeved         ###   ########.fr        #
+#    Updated: 2025/09/26 19:48:12 by feazeved         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = cc
 
 NAME = fdf
 
-SRC = fdf.c ft_calloc.c ft_map.c ft_split.c get_next_line.c ft_strlen.c ft_memset.c ft_abs.c aditional_func.c
+SRC = fdf.c ft_map.c ft_split.c get_next_line.c aditional_func.c utils.c
 
 OBJ = $(SRC:.c=.o)
 

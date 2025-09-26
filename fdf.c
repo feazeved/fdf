@@ -6,7 +6,7 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 15:20:52 by feazeved          #+#    #+#             */
-/*   Updated: 2025/09/20 20:45:30 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/09/25 21:48:26 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,118 @@ void	ft_clear_image(t_data *data)
 	ft_memset(data->addr, 0, data->w_height * data->line_len);
 }
 
-void ft_debug_data(t_data *data)
+void	ft_drawline(t_data *data, t_point a, t_point b)
 {
-    printf("=== FDF DEBUG INFO ===\n");
-    printf("Map dimensions: %dx%d (%d points)\n",
-           data->map.width, data->map.height, data->map.np);
-    printf("Z range: %d to %d\n", data->map.z_min, data->map.z_max);
-    printf("Camera zoom: %d, angle: %f\n", data->camera.zoom, data->camera.angle);
-    printf("Window size: %dx%d\n", data->w_width, data->w_height);
+	float	delta_x;
+	float	delta_y;
+	float	m;
+	int		i;
+	float	x;
+	float	y;
 
-    printf("First 5 points:\n");
-    for (int i = 0; i < 5 && i < data->map.np; i++)
-    {
-        printf("  Point %d: (%d, %d, %d)\n", i,
-               data->map.points[i].x, data->map.points[i].y, data->map.points[i].z);
-    }
-    printf("======================\n");
+	if (ft_abs(b.screen_y - a.screen_y) < ft_abs(b.screen_x - a.screen_x))
+	{
+		if (b.screen_x < a.screen_x)
+		{
+			i = a.screen_x;
+			a.screen_x = b.screen_x;
+			b.screen_x = i;
+	
+			i = a.screen_y;
+			a.screen_y = b.screen_y;
+			b.screen_y = i;
+		}
+		b.screen_x += (data->w_width / 2);
+		b.screen_y += (data->w_height / 2);
+		a.screen_x += (data->w_width / 2);
+		a.screen_y += (data->w_height / 2);
+		delta_x = b.screen_x - a.screen_x;
+		delta_y = b.screen_y - a.screen_y;
+		if (delta_x == 0)
+			m = 1;
+		else
+			m = delta_y / delta_x;
+		i = 0;
+		while (i < delta_x + 1)
+		{
+			x = a.screen_x + i;
+			y = a.screen_y + i * m;
+			i++;
+			ft_mlx_pixel_put(data, x, y, 0xFFFFFF);
+			ft_mlx_pixel_put(data, x, y + 1, 0xFFFFFF);
+		}
+	}
+	else
+	{
+		if (b.screen_y < a.screen_y)
+		{
+			i = a.screen_x;
+			a.screen_x = b.screen_x;
+			b.screen_x = i;
+
+			i = a.screen_y;
+			a.screen_y = b.screen_y;
+			b.screen_y = i;
+		}
+		b.screen_x += (data->w_width / 2);
+		b.screen_y += (data->w_height / 2);
+		a.screen_x += (data->w_width / 2);
+		a.screen_y += (data->w_height / 2);
+		delta_x = b.screen_x - a.screen_x;
+		delta_y = b.screen_y - a.screen_y;
+		if (delta_y == 0)
+			m = 1;
+		else
+			m = delta_x / delta_y;
+		i = 0;
+		while(i < delta_y + 1)
+		{
+			x = a.screen_x + i * m;
+			y = a.screen_y + i;
+			i++;
+			ft_mlx_pixel_put(data, x, y, 0xFFFFFF);
+			ft_mlx_pixel_put(data, x, y, 0xFFFFFF);
+		}
+	}
+}
+
+void	ft_project(t_point *point)
+{
+	point->screen_x = (int)(((point->x * 50) - (point->y * 50)) * cos(0.523599));
+	point->screen_y = (int)(((point->x * 50) + (point->y * 50)) * sin(0.523599) - (point->z * 4));
+}
+
+void	ft_draw(t_data *data)
+{
+	int	x;
+	int	y;
+	int	i;
+	int	p;
+
+	i = 0;
+	y = 0;
+	while (i < data->map.np)
+	{
+		x = 0;
+		while (x < data->map.width)
+		{
+			p = (y * data->map.width + x);
+			ft_project(&data->map.points[p]);
+			if (data->map.points[p].x != data->map.points[data->map.np - 1].x)
+				ft_drawline(data, data->map.points[p], data->map.points[p + 1]);
+			if (data->map.points[p].y != data->map.points[data->map.np - 1].y)
+				ft_drawline(data, data->map.points[p], data->map.points[p + data->map.width]);
+			x++;
+			i++;
+		}
+		y++;
+	}
 }
 
 int	ft_render(t_data *data)
 {
-	static int	first_render = 1;
-
-	if (first_render)
-	{
-		ft_debug_data(data);
-		first_render = 0;
-	}
 	ft_clear_image(data);
-	ft_draw_fdf(data);
+	ft_draw(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
 	return (0);
 }
@@ -121,9 +204,6 @@ void	ft_init_camera(t_data *data)
         data->camera.zoom = 8;
     else
         data->camera.zoom = 4;
-
-    printf("Map size: %dx%d, using zoom: %d\n",
-           data->map.width, data->map.height, data->camera.zoom);
 }
 
 int	ft_close_window(t_data *data)
@@ -140,6 +220,8 @@ int	main(int argc, char **argv)
 	ft_parsing(&data, argc, argv);
 	ft_init_window(&data);
 	ft_init_camera(&data);
+
+	ft_test_parsing(data.map);
 
 	mlx_key_hook(data.mlx_win, key_hook, &data);
 	mlx_loop_hook(data.mlx, ft_render, &data);

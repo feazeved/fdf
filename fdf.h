@@ -6,7 +6,7 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:34:58 by feazeved          #+#    #+#             */
-/*   Updated: 2025/09/20 20:45:36 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/09/24 21:32:46 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_point
 	int	x;
 	int	y;
 	int	z;
+	int	screen_x;
+	int	screen_y;
 }		t_point;
 
 typedef struct s_map
@@ -86,7 +88,7 @@ int	key_hook(int keycode, t_data *data);
 void	ft_draw_fdf(t_data *data);
 int	ft_get_color(int z, t_data *data);
 void	ft_draw_line(t_data *data, t_point p0, t_point p1, int color);
-t_point ft_project(t_point point, t_data *data);
+void	ft_project(t_point *point);
 
 // LIBFT --------------------------------------------------------------------
 // --------------------------------------------------------------------------

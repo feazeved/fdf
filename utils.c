@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -26,6 +26,58 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
+
+size_t	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s && s[i])
+		i++;
+	return (i);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t			i;
+	size_t			a;
+	unsigned char	*ptr;
+
+	i = 0;
+	a = nmemb * size;
+	if (size && (a / size != nmemb))
+		return (NULL);
+	ptr = malloc(a);
+	if (!ptr)
+		return (NULL);
+	while (i < a)
+	{
+		ptr[i] = 0;
+		i++;
+	}
+	return (ptr);
+}
+
+int	ft_abs(int n)
+{
+	if (n < 0)
+		return (n * -1);
+	return (n);
+}
+
+void	ft_free_strs(char **strs)
+{
+	int	i;
+
+	i = 0;
+	while (strs && strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(strs);
+}
+
 /*
 #include <string.h>
 int	main(void)

@@ -6,7 +6,7 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 19:08:14 by feazeved          #+#    #+#             */
-/*   Updated: 2025/09/20 19:40:44 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/09/24 20:19:40 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,6 @@ void	ft_free_data(t_data *data)
 	if (data->mlx)
 		free(data->mlx);
 	exit(0);
-}
-
-void	ft_free_strs(char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs && strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
 }
 
 void	ft_center_points(t_data *data)
