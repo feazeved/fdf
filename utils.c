@@ -27,6 +27,25 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
+int	ft_count_words(char *str, char sep)
+{
+	int	i;
+	int	words;
+
+	i = 0;
+	words = 0;
+	while (str && str[i])
+	{
+		while (str[i] == sep)
+			i++;
+		if (str[i])
+			words++;
+		while (str[i] && str[i] != sep)
+			i++;
+	}
+	return (words);
+}
+
 size_t	ft_strlen(const char *s)
 {
 	int	i;
@@ -56,13 +75,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		i++;
 	}
 	return (ptr);
-}
-
-int	ft_abs(int n)
-{
-	if (n < 0)
-		return (n * -1);
-	return (n);
 }
 
 void	ft_free_strs(char **strs)

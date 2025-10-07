@@ -6,27 +6,11 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 15:20:52 by feazeved          #+#    #+#             */
-/*   Updated: 2025/09/25 21:48:26 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/10/07 20:05:39 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	ft_test_parsing(t_map map)
-{
-	int	i;
-
-	i = 0;
-	printf("max z: %d\nmin z: %d\n\n", map.z_max, map.z_min);
-	while (i < map.np)
-	{
-		printf("point: %d ", i);
-		printf("x == %d   ", map.points[i].x);
-		printf("y == %d   ", map.points[i].y);
-		printf("z == %d\n", map.points[i].z);
-		i++;
-	}
-}
 
 void	ft_init_window(t_data *data)
 {
@@ -67,118 +51,10 @@ void	ft_clear_image(t_data *data)
 	ft_memset(data->addr, 0, data->w_height * data->line_len);
 }
 
-void	ft_drawline(t_data *data, t_point a, t_point b)
-{
-	float	delta_x;
-	float	delta_y;
-	float	m;
-	int		i;
-	float	x;
-	float	y;
-
-	if (ft_abs(b.screen_y - a.screen_y) < ft_abs(b.screen_x - a.screen_x))
-	{
-		if (b.screen_x < a.screen_x)
-		{
-			i = a.screen_x;
-			a.screen_x = b.screen_x;
-			b.screen_x = i;
-	
-			i = a.screen_y;
-			a.screen_y = b.screen_y;
-			b.screen_y = i;
-		}
-		b.screen_x += (data->w_width / 2);
-		b.screen_y += (data->w_height / 2);
-		a.screen_x += (data->w_width / 2);
-		a.screen_y += (data->w_height / 2);
-		delta_x = b.screen_x - a.screen_x;
-		delta_y = b.screen_y - a.screen_y;
-		if (delta_x == 0)
-			m = 1;
-		else
-			m = delta_y / delta_x;
-		i = 0;
-		while (i < delta_x + 1)
-		{
-			x = a.screen_x + i;
-			y = a.screen_y + i * m;
-			i++;
-			ft_mlx_pixel_put(data, x, y, 0xFFFFFF);
-			ft_mlx_pixel_put(data, x, y + 1, 0xFFFFFF);
-		}
-	}
-	else
-	{
-		if (b.screen_y < a.screen_y)
-		{
-			i = a.screen_x;
-			a.screen_x = b.screen_x;
-			b.screen_x = i;
-
-			i = a.screen_y;
-			a.screen_y = b.screen_y;
-			b.screen_y = i;
-		}
-		b.screen_x += (data->w_width / 2);
-		b.screen_y += (data->w_height / 2);
-		a.screen_x += (data->w_width / 2);
-		a.screen_y += (data->w_height / 2);
-		delta_x = b.screen_x - a.screen_x;
-		delta_y = b.screen_y - a.screen_y;
-		if (delta_y == 0)
-			m = 1;
-		else
-			m = delta_x / delta_y;
-		i = 0;
-		while(i < delta_y + 1)
-		{
-			x = a.screen_x + i * m;
-			y = a.screen_y + i;
-			i++;
-			ft_mlx_pixel_put(data, x, y, 0xFFFFFF);
-			ft_mlx_pixel_put(data, x, y, 0xFFFFFF);
-		}
-	}
-}
-
-void	ft_project(t_point *point)
-{
-	point->screen_x = (int)(((point->x * 50) - (point->y * 50)) * cos(0.523599));
-	point->screen_y = (int)(((point->x * 50) + (point->y * 50)) * sin(0.523599) - (point->z * 4));
-}
-
-void	ft_draw(t_data *data)
-{
-	int	x;
-	int	y;
-	int	i;
-	int	p;
-
-	i = 0;
-	y = 0;
-	while (i < data->map.np)
-	{
-		x = 0;
-		while (x < data->map.width)
-		{
-			p = (y * data->map.width + x);
-			ft_project(&data->map.points[p]);
-			if (data->map.points[p].x != data->map.points[data->map.np - 1].x)
-				ft_drawline(data, data->map.points[p], data->map.points[p + 1]);
-			if (data->map.points[p].y != data->map.points[data->map.np - 1].y)
-				ft_drawline(data, data->map.points[p], data->map.points[p + data->map.width]);
-			x++;
-			i++;
-		}
-		y++;
-	}
-}
-
 int	ft_render(t_data *data)
 {
 	ft_clear_image(data);
-	ft_draw(data);
+	ft_draw_map(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
 	return (0);
 }
@@ -187,13 +63,16 @@ void	ft_init_camera(t_data *data)
 {
 	int	max_dimension;
 
-	if (data->map.width > data->map.height)
-		max_dimension = data->map.width;
-	else
+	max_dimension = data->map.width;
+	if (data->map.height > max_dimension)
 		max_dimension = data->map.height;
 	data->camera.scale = 1.0;
-	data->camera.angle = 0.5236;
-	data->camera.zoom = 25;
+	data->camera.angle_x = 0.0;
+	data->camera.angle_y = 0.0;
+	data->camera.angle_z = 0.523599;
+	data->camera.offset_x = 0;
+	data->camera.offset_y = 0;
+	data->camera.z_scale = 0.25;
 	if (max_dimension <= 10)
         data->camera.zoom = 50;
     else if (max_dimension <= 20)
@@ -202,8 +81,23 @@ void	ft_init_camera(t_data *data)
         data->camera.zoom = 15;
     else if (max_dimension <= 100)
         data->camera.zoom = 8;
-    else
+    else if (max_dimension <= 200)
         data->camera.zoom = 4;
+	else if (max_dimension <= 400)
+		data->camera.zoom = 2;
+	else
+		data->camera.zoom = 1;
+}
+
+void	ft_reset_camera(t_data *data)
+{
+	data->camera.angle_x = 0.0;
+	data->camera.angle_y = 0.0;
+	data->camera.angle_z = 0.523599;
+	data->camera.offset_x = 0;
+	data->camera.offset_y = 0;
+	data->camera.z_scale = 2.5;
+	ft_init_camera(data);
 }
 
 int	ft_close_window(t_data *data)
@@ -211,7 +105,52 @@ int	ft_close_window(t_data *data)
 	ft_free_data(data);
 	return (0);
 }
-
+void	test_color_parsing(char *input)
+{
+	char	*str = input;
+	char	*color_start;
+	int		z_value = 0;
+	int		color = -1;
+	int		sign = 1;
+	
+	printf("\n=== Testing: '%s' ===\n", input);
+	
+	// Find comma
+	color_start = str;
+	while (*color_start && *color_start != ',')
+		color_start++;
+	
+	// Parse Z
+	if (*str == '-')
+	{
+		sign = -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		z_value = z_value * 10 + (*str - '0');
+		str++;
+	}
+	z_value *= sign;
+	
+	// Parse color
+	if (*color_start == ',')
+	{
+		color_start++;
+		if (*color_start == '0' && *(color_start + 1) == 'x')
+		{
+			color_start += 2;
+			color = ft_ahextoint(color_start);
+		}
+	}
+	
+	printf("Z value: %d\n", z_value);
+	printf("Color (hex): 0x%06X\n", color);
+	printf("Color (RGB): R=%d, G=%d, B=%d\n",
+		(color >> 16) & 0xFF,
+		(color >> 8) & 0xFF,
+		color & 0xFF);
+}
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -220,10 +159,8 @@ int	main(int argc, char **argv)
 	ft_parsing(&data, argc, argv);
 	ft_init_window(&data);
 	ft_init_camera(&data);
-
-	ft_test_parsing(data.map);
-
 	mlx_key_hook(data.mlx_win, key_hook, &data);
+	mlx_mouse_hook(data.mlx_win, mouse_hook, &data);
 	mlx_loop_hook(data.mlx, ft_render, &data);
 	mlx_hook(data.mlx_win, 17, 0, ft_close_window, &data);
 	mlx_loop(data.mlx);
