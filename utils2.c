@@ -83,3 +83,23 @@ void	ft_set_z_limits(t_data *data)
 	data->map.z_min = min;
 	data->map.z_max = max;
 }
+
+void	ft_init_line(t_point *a, t_point *b, int *delta, float *slope)
+{
+	delta[0] = abs(b->screen_x - a->screen_x);
+	delta[1] = abs(b->screen_y - a->screen_y);
+	if (delta[0] > delta[1])
+	{
+		if (delta[0] != 0)
+			*slope = (float)delta[1] / delta[0];
+		else
+			*slope = 0;
+	}
+	else
+	{
+		if (delta[1] != 0)
+			*slope = (float)delta[0] / delta[1];
+		else
+			*slope = 0;
+	}
+}

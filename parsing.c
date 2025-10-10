@@ -6,7 +6,7 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 20:48:02 by feazeved          #+#    #+#             */
-/*   Updated: 2025/10/06 20:53:01 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:52:01 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_parsing(t_data *data, int argc, char **argv)
 		ft_error(NULL, "Invalid input, you should do", "./fdf map");
 	}
 	ft_set_map_size(data, argv);
+	ft_check_map(data, argv);
 	ft_set_numbers(0, data, argv);
 	ft_set_z_limits(data);
 	ft_center_points(data);
@@ -64,16 +65,14 @@ void	ft_set_numbers(int y, t_data *data, char **argv)
 	data->map.points = ft_fdf_calloc(data->map.np, sizeof(t_point), data);
 	while (y < data->map.height)
 	{
-		x = 0;
+		x = -1;
 		data->line = get_next_line(fd);
 		data->split = ft_split(data->line, ' ');
 		if (!data->split || !data->line)
 			ft_error(data, "Malloc", strerror(errno));
-		while (x < data->map.width)
-		{
-			ft_set_point_color(&data->map.points[y * data->map.width + x], y, x, data->split[x]);
-			x++;
-		}
+		while (++x < data->map.width)
+			ft_set_point(&data->map.points[y * data->map.width + x],
+				y, x, data->split[x]);
 		free(data->line);
 		data->line = NULL;
 		ft_free_strs(data->split);
@@ -82,7 +81,7 @@ void	ft_set_numbers(int y, t_data *data, char **argv)
 	}
 }
 
-void	ft_set_point_color(t_point *point, int y, int x, char *str)
+void	ft_set_point(t_point *point, int y, int x, char *str)
 {
 	int	sign;
 	int	num;

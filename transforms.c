@@ -54,9 +54,12 @@ void	ft_project(t_point *point, t_camera *cam)
 	x = point->x * cam->zoom;
 	y = point->y * cam->zoom;
 	z = point->z * cam->z_scale * cam->zoom;
-	ft_rotate_x(&y, &z, cam->angle_x);
-	ft_rotate_y(&x, &z, cam->angle_y);
-	ft_rotate_z(&x, &y, cam->angle_z);
+	if (!cam->parallel)
+	{
+		ft_rotate_x(&y, &z, cam->angle_x);
+		ft_rotate_y(&x, &z, cam->angle_y);
+		ft_rotate_z(&x, &y, cam->angle_z);
+	}
 	point->screen_x = x + cam->offset_x;
 	point->screen_y = y + cam->offset_y;
 }

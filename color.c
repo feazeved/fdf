@@ -45,7 +45,8 @@ void	ft_assign_colors(t_data *data)
 	while (i < data->map.np)
 	{
 		if (data->map.points[i].color == -1)
-			data->map.points[i].color = ft_get_color_from_height(data, data->map.points[i].z);
+			data->map.points[i].color
+				= ft_get_color_from_height(data, data->map.points[i].z);
 		i++;
 	}
 }
@@ -56,8 +57,11 @@ int	ft_interpolate_color(int c1, int c2, double ratio)
 	int	g;
 	int	b;
 
-	r = ((c1 >> 16) & 0xFF) + (int)((((c2 >> 16) & 0xFF) - ((c1 >> 16) & 0xFF)) * ratio);
-	g = ((c1 >> 8) & 0xFF) + (int)((((c2 >> 8) & 0xFF) - ((c1 >> 8) & 0xFF)) * ratio);
-	b = (c1 & 0xFF) + (int)(((c2 & 0xFF) - (c1 & 0xFF)) * ratio);
+	r = ((c1 >> 16) & 0xFF) + (int)((((c2 >> 16) & 0xFF)
+				- ((c1 >> 16) & 0xFF)) * ratio);
+	g = ((c1 >> 8) & 0xFF) + (int)((((c2 >> 8) & 0xFF)
+				- ((c1 >> 8) & 0xFF)) * ratio);
+	b = (c1 & 0xFF) + (int)(((c2 & 0xFF)
+				- (c1 & 0xFF)) * ratio);
 	return ((r << 16) | (g << 8) | b);
 }

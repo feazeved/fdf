@@ -6,7 +6,7 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 20:53:21 by feazeved          #+#    #+#             */
-/*   Updated: 2025/10/06 20:54:30 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:51:02 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,18 @@ void	ft_error(t_data *data, char *func, char *msg)
 
 void	ft_free_data(t_data *data)
 {
-	if (data->map.points)
+	if (data && data->map.points)
 		free(data->map.points);
-	if (data->line)
+	if (data && data->line)
 		free(data->line);
-	if (data->split)
+	if (data && data->split)
 		ft_free_strs(data->split);
-	mlx_destroy_image(data->mlx, data->img);
-	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy_display(data->mlx);
+	if (data && data->mlx)
+	{
+		mlx_destroy_image(data->mlx, data->img);
+		mlx_destroy_window(data->mlx, data->mlx_win);
+		mlx_destroy_display(data->mlx);
+	}
 	if (data->mlx)
 		free(data->mlx);
 	exit(0);

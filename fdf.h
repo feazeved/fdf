@@ -6,7 +6,7 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:34:58 by feazeved          #+#    #+#             */
-/*   Updated: 2025/10/07 17:40:37 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:59:32 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@
 // ---------------------------------------------------------------------------
 typedef struct s_point
 {
-	int	x;
-	int	y;
-	int	z;
-	int	screen_x;
-	int	screen_y;
-	int	color;
+	int		x;
+	int		y;
+	int		z;
+	int		screen_x;
+	int		screen_y;
+	int		color;
 }		t_point;
 
 typedef struct s_map
@@ -54,10 +54,16 @@ typedef struct s_camera
 	double	angle_x;
 	double	angle_y;
 	double	angle_z;
-	int		zoom;
+	double	zoom;
 	int		offset_x;
 	int		offset_y;
 	double	z_scale;
+	float	zoom_limit_in;
+	float	zoom_limit_out;
+	float	zoom_increase;
+	int		auto_rotate;
+	float	rotate_speed;
+	int		parallel;
 }			t_camera;
 
 typedef struct s_data
@@ -94,8 +100,6 @@ typedef struct s_wu_vars
 void	ft_error(t_data *data, char *func, char *msg);
 void	ft_free_data(t_data *data);
 
-
-
 // parsing
 void	ft_parsing(t_data *data, int argc, char **argv);
 void	ft_set_point(t_point *point, int y, int x, char *str);
@@ -108,9 +112,7 @@ int		ft_parse_color(char **str);
 int		ft_ishexdigit(char c);
 int		ft_ahextoint(char *str);
 void	ft_center_points(t_data *data);
-
-
-
+void	ft_check_map(t_data *data, char **argv);
 
 // minilibx
 void	ft_mlx_pixel_put(t_data *data, int x, int y, int color);
@@ -118,9 +120,7 @@ int		ft_close_window(t_data *data);
 int		ft_render(t_data *data);
 void	ft_clear_image(t_data *data);
 void	ft_init_window(t_data *data);
-
-
-
+void	ft_display_info(t_data *data);
 
 // camera and controls
 void	ft_init_camera(t_data *data);
@@ -130,6 +130,9 @@ int		ft_handle_movement(int keycode, t_data *data);
 int		ft_handle_rotation(int keycode, t_data *data);
 int		ft_handle_zoom(int keycode, t_data *data);
 int		mouse_hook(int keycode, int x, int y, t_data *data);
+int		handle_zoom(t_data *data, int keycode, float increase);
+void	handle_smooth_zoom(int *limit_in, int *limit_out, float increase);
+void	ft_set_zoom(t_data *data, int max_dimension);
 
 // projection and rotations
 void	ft_project(t_point *point, t_camera *cam);
@@ -142,16 +145,13 @@ int		ft_get_color_from_height(t_data *data, int z);
 void	ft_assign_colors(t_data *data);
 int		ft_interpolate_color(int c1, int c2, double ratio);
 
-
 // drawing
 void	ft_init_line(t_point *a, t_point *b, int *delta, float *slope);
 void	ft_draw_horizontal(t_data *data, t_point a, t_point b);
 void	ft_draw_vertical(t_data *data, t_point a, t_point b);
 void	ft_drawline(t_data *data, t_point a, t_point b);
-void	ft_draw_map(t_data *data);
-
+void	ft_draw_map(t_data *data, int y, int skip);
 void	ft_draw_line_toggle(t_data *data, int p1, int p2);
-
 
 // xiaolin
 void	ft_draw_wu_line(t_data *data, t_point a, t_point b);
@@ -159,8 +159,9 @@ float	ft_fpart(float x);
 float	ft_rfpart(float x);
 void	ft_swap_points(t_point *a, t_point *b);
 void	ft_swap_coords(int *a, int *b);
-void	ft_draw_aa_pixel(t_data *data, int x, int y, int color, float bright);
 int		ft_apply_brightness(int color, float brightness);
+void	ft_wu_first_endpoint(t_data *data, t_point a, t_wu_vars *v, int steep);
+void	ft_wu_second_endpoint(t_data *data, t_point b, t_wu_vars *v, int steep);
 
 // LIBFT --------------------------------------------------------------------
 // --------------------------------------------------------------------------
