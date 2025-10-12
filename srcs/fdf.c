@@ -32,12 +32,31 @@ void	ft_init_window(t_data *data)
 		ft_error(data, "Mlx_get_data_addr", "could not get data addr");
 }
 
+void	ft_display_menu(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 120)
+	{
+		j = 0;
+		while (j < 200)
+		{
+			ft_mlx_pixel_put(data, j, i, 128);
+			j++;
+		}
+		i++;
+	}
+}
+
 int	ft_render(t_data *data)
 {
 	ft_apply_auto_rotation(&data->camera);
 	ft_clear_image(data);
 	ft_draw_map(data, 0, 1);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
+	ft_display_menu(data);
 	ft_display_info(data);
 	return (0);
 }

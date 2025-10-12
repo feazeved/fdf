@@ -13,18 +13,17 @@
 #ifndef FDF_H
 # define FDF_H
 
-# define BUFFER_SIZE 256
-
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <string.h>
-# include "mlx.h"
 # include <limits.h>
 # include <math.h>
-
+# include "libft.h"
+# include "mlx.h"
+#include "structs.h"
 
 // FDF ----------------------------------------------------------------------
 // --------------------------------------------------------------------------
@@ -53,6 +52,7 @@ int		ft_render(t_data *data);
 void	ft_clear_image(t_data *data);
 void	ft_init_window(t_data *data);
 void	ft_display_info(t_data *data);
+void    ft_display_menu(t_data *data);
 
 // camera and controls
 void	ft_init_camera(t_data *data);
@@ -94,15 +94,5 @@ void	ft_swap_coords(int *a, int *b);
 int		ft_apply_brightness(int color, float brightness);
 void	ft_wu_first_endpoint(t_data *data, t_point a, t_wu_vars *v, int steep);
 void	ft_wu_second_endpoint(t_data *data, t_point b, t_wu_vars *v, int steep);
-
-// LIBFT --------------------------------------------------------------------
-// --------------------------------------------------------------------------
-char	**ft_split(const char *s, char c);
-void	*ft_calloc(size_t nmemb, size_t size);
-size_t	ft_strlen(const char *str);
-char	*get_next_line(int fd);
-void	ft_free_strs(char **strs);
-void	*ft_memset(void *s, int c, size_t n);
-int		ft_count_words(char *str, char sep);
 
 #endif
