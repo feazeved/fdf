@@ -55,8 +55,10 @@ void	ft_wu_draw_steep(t_data *data, t_point a, t_point b, t_wu_vars *v)
 	{
 		ratio = (float)(x - v->xpxl1) / (v->xpxl2 - v->xpxl1);
 		color = ft_interpolate_color(a.color, b.color, ratio);
-		ft_mlx_pixel_put(data, (int)v->intery, x, ft_apply_brightness(color, ft_rfpart(v->intery)));
-		ft_mlx_pixel_put(data, (int)v->intery + 1, x, ft_apply_brightness(color, ft_fpart(v->intery)));
+		ft_mlx_pixel_put(data, (int)v->intery, x,
+			ft_apply_brightness(color, ft_rfpart(v->intery)));
+		ft_mlx_pixel_put(data, (int)v->intery + 1, x,
+			ft_apply_brightness(color, ft_fpart(v->intery)));
 		v->intery += v->gradient;
 		x++;
 	}
@@ -73,8 +75,10 @@ void	ft_wu_draw_gentle(t_data *data, t_point a, t_point b, t_wu_vars *v)
 	{
 		ratio = (float)(x - v->xpxl1) / (v->xpxl2 - v->xpxl1);
 		color = ft_interpolate_color(a.color, b.color, ratio);
-		ft_mlx_pixel_put(data, x, (int)v->intery, ft_apply_brightness(color, ft_rfpart(v->intery)));
-		ft_mlx_pixel_put(data, x, (int)v->intery + 1, ft_apply_brightness(color, ft_fpart(v->intery)));
+		ft_mlx_pixel_put(data, x, (int)v->intery,
+			ft_apply_brightness(color, ft_rfpart(v->intery)));
+		ft_mlx_pixel_put(data, x, (int)v->intery + 1,
+			ft_apply_brightness(color, ft_fpart(v->intery)));
 		v->intery += v->gradient;
 		x++;
 	}

@@ -26,10 +26,11 @@ void	ft_init_camera(t_data *data)
 	data->camera.offset_x = 0;
 	data->camera.offset_y = 0;
 	data->camera.z_scale = 0.25;
+	data->camera.rotate_speed = 0.01;
 	ft_set_zoom(data, max_dimension);
-	if (max_dimension <= 10)
+	if (max_dimension <= 50)
 		data->camera.zoom = 50;
-	else if (max_dimension <= 50)
+	else if (max_dimension <= 100)
 		data->camera.zoom = 15;
 	else if (max_dimension <= 200)
 		data->camera.zoom = 4;

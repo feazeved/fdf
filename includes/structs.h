@@ -47,7 +47,6 @@ typedef struct s_camera
 	float	zoom_limit_in;
 	float	zoom_limit_out;
 	float	zoom_increase;
-	int		auto_rotate;
 	float	rotate_speed;
 	int		parallel;
 }			t_camera;
@@ -68,6 +67,8 @@ typedef struct s_keys
 	bool	right_arrow;
 	bool	page_down;
 	bool	page_up;
+	bool	add_rot_speed;
+	bool	sub_rot_speed;
 }	t_keys;
 
 typedef struct s_data

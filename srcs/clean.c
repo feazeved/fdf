@@ -41,7 +41,7 @@ void	ft_free_data(t_data *data)
 		mlx_destroy_window(data->mlx, data->mlx_win);
 		mlx_destroy_display(data->mlx);
 	}
-	if (data->mlx)
+	if (data && data->mlx)
 		free(data->mlx);
 	exit(0);
 }

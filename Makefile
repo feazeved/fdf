@@ -25,7 +25,7 @@ MLX_LIB = $(MLX_DIR)/libmlx_Linux.a
 SRC = fdf.c keys.c line_algorithm.c \
 	utils2.c color.c clean.c parsing.c \
 	transforms.c xiaolin_algorithm.c utils3.c \
-	camera.c xiaolin_utils.c xiaolin_utils2.c
+	camera.c xiaolin_utils.c xiaolin_utils2.c menus.c changes.c mlx_utils.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 

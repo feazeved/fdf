@@ -25,13 +25,17 @@ void	ft_wu_first_endpoint(t_data *data, t_point a, t_wu_vars *v, int steep)
 	v->ypxl1 = (int)yend;
 	if (steep)
 	{
-		ft_mlx_pixel_put(data, v->ypxl1, v->xpxl1, ft_apply_brightness(a.color, ft_rfpart(yend) * xgap));
-		ft_mlx_pixel_put(data, v->ypxl1 + 1, v->xpxl1, ft_apply_brightness(a.color, ft_fpart(yend) * xgap));
+		ft_mlx_pixel_put(data, v->ypxl1, v->xpxl1,
+			ft_apply_brightness(a.color, ft_rfpart(yend) * xgap));
+		ft_mlx_pixel_put(data, v->ypxl1 + 1, v->xpxl1,
+			ft_apply_brightness(a.color, ft_fpart(yend) * xgap));
 	}
 	else
 	{
-		ft_mlx_pixel_put(data, v->xpxl1, v->ypxl1, ft_apply_brightness(a.color, ft_rfpart(yend) * xgap));
-		ft_mlx_pixel_put(data, v->xpxl1, v->ypxl1 + 1, ft_apply_brightness(a.color, ft_fpart(yend) * xgap));
+		ft_mlx_pixel_put(data, v->xpxl1, v->ypxl1,
+			ft_apply_brightness(a.color, ft_rfpart(yend) * xgap));
+		ft_mlx_pixel_put(data, v->xpxl1, v->ypxl1 + 1,
+			ft_apply_brightness(a.color, ft_fpart(yend) * xgap));
 	}
 	v->intery = yend + v->gradient;
 }
@@ -49,12 +53,16 @@ void	ft_wu_second_endpoint(t_data *data, t_point b, t_wu_vars *v, int steep)
 	v->ypxl2 = (int)yend;
 	if (steep)
 	{
-		ft_mlx_pixel_put(data, v->ypxl2, v->xpxl2, ft_apply_brightness(b.color, ft_rfpart(yend) * xgap));
-		ft_mlx_pixel_put(data, v->ypxl2 + 1, v->xpxl2, ft_apply_brightness(b.color, ft_fpart(yend) * xgap));
+		ft_mlx_pixel_put(data, v->ypxl2, v->xpxl2,
+			ft_apply_brightness(b.color, ft_rfpart(yend) * xgap));
+		ft_mlx_pixel_put(data, v->ypxl2 + 1, v->xpxl2,
+			ft_apply_brightness(b.color, ft_fpart(yend) * xgap));
 	}
 	else
 	{
-		ft_mlx_pixel_put(data, v->xpxl2, v->ypxl2, ft_apply_brightness(b.color, ft_rfpart(yend) * xgap));
-		ft_mlx_pixel_put(data, v->xpxl2, v->ypxl2 + 1, ft_apply_brightness(b.color, ft_fpart(yend) * xgap));
+		ft_mlx_pixel_put(data, v->xpxl2, v->ypxl2,
+			ft_apply_brightness(b.color, ft_rfpart(yend) * xgap));
+		ft_mlx_pixel_put(data, v->xpxl2, v->ypxl2 + 1,
+			ft_apply_brightness(b.color, ft_fpart(yend) * xgap));
 	}
 }

@@ -34,6 +34,7 @@
 // main e error
 void	ft_error(t_data *data, char *func, char *msg);
 void	ft_free_data(t_data *data);
+void	ft_help_menu(t_data *data);
 
 // parsing
 void	ft_parsing(t_data *data, int argc, char **argv);
@@ -56,7 +57,7 @@ int		ft_render(t_data *data);
 void	ft_clear_image(t_data *data);
 void	ft_init_window(t_data *data);
 void	ft_display_info(t_data *data);
-void    ft_display_menu(t_data *data);
+void    ft_display_menu(t_data *data, int first_y, int last_y, int last_x);
 
 // camera and controls
 void	ft_init_camera(t_data *data);

@@ -18,8 +18,8 @@ void	ft_parsing(t_data *data, int argc, char **argv)
 	{
 		ft_error(NULL, "Invalid input, you should do", "./fdf map");
 	}
-	ft_set_map_size(data, argv);
 	ft_check_map(data, argv);
+	ft_set_map_size(data, argv);
 	ft_set_numbers(0, data, argv);
 	ft_set_z_limits(data);
 	ft_center_points(data);
