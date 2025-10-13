@@ -57,7 +57,7 @@ void	ft_set_zoom(t_data *data, int max_dimension)
 		data->camera.zoom_limit_in = 10;
 		data->camera.zoom_limit_out = 100;
 	}
-	else if (max_dimension >= 100 && max_dimension <= 200)
+	else if (max_dimension >= 100 && max_dimension < 200)
 	{
 		data->camera.zoom_increase = 0.6;
 		data->camera.zoom_limit_in = 8;

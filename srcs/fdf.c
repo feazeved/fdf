@@ -43,21 +43,51 @@ void	ft_display_menu(t_data *data)
 		j = 0;
 		while (j < 200)
 		{
-			ft_mlx_pixel_put(data, j, i, 128);
+			ft_mlx_pixel_put(data, j, i, GRAY);
 			j++;
 		}
 		i++;
 	}
 }
 
+void	ft_help_menu(t_data *data)
+{
+	int	i;
+	int	j;
+
+	if (!data->help_menu)
+		return ;
+	i = 140;
+	while (i < 420)
+	{
+		j = 0;
+		while (j < 200)
+		{
+			ft_mlx_pixel_put(data, j, i, GRAY);
+			j++;
+		}
+		i++;
+	}
+	mlx_string_put(data->mlx, data->mlx_win, 10, 160, 0xFFFFFF, "W / S: Rotate on X axis");
+	mlx_string_put(data->mlx, data->mlx_win, 10, 180, 0xFFFFFF, "A / D: Rotate on Y axis");
+	mlx_string_put(data->mlx, data->mlx_win, 10, 200, 0xFFFFFF, "Q / E: Rotate on Z axis");
+	mlx_string_put(data->mlx, data->mlx_win, 10, 240, 0xFFFFFF, "Arrow keys: Move");
+	mlx_string_put(data->mlx, data->mlx_win, 10, 280, 0xFFFFFF, "Scroll: Zoom");
+	mlx_string_put(data->mlx, data->mlx_win, 10, 300, 0xFFFFFF, "Plus and Minus: Zoom");
+	mlx_string_put(data->mlx, data->mlx_win, 10, 340, 0xFFFFFF, "PgUp / PgDn: Change Z value");
+	mlx_string_put(data->mlx, data->mlx_win, 10, 360, 0xFFFFFF, "R: Reset projection");
+	mlx_string_put(data->mlx, data->mlx_win, 10, 400, 0xFFFFFF, "Esc: Exit program");
+}
+
 int	ft_render(t_data *data)
 {
-	ft_apply_auto_rotation(&data->camera);
 	ft_clear_image(data);
+	update(data);
 	ft_draw_map(data, 0, 1);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
 	ft_display_menu(data);
 	ft_display_info(data);
+	ft_help_menu(data);
 	return (0);
 }
 
@@ -69,7 +99,8 @@ int	main(int argc, char **argv)
 	ft_parsing(&data, argc, argv);
 	ft_init_window(&data);
 	ft_init_camera(&data);
-	mlx_key_hook(data.mlx_win, key_hook, &data);
+	mlx_hook(data.mlx_win, 2, 1L << 0, key_press, &data);
+	mlx_hook(data.mlx_win, 3, 1L << 1, key_release, &data);
 	mlx_mouse_hook(data.mlx_win, mouse_hook, &data);
 	mlx_loop_hook(data.mlx, ft_render, &data);
 	mlx_hook(data.mlx_win, 17, 0, ft_close_window, &data);

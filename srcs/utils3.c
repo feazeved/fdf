@@ -22,7 +22,7 @@ void	ft_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	if (!data || !data->addr)
+	if (!data || !data->addr || (x < 2 || y < 2))
 		return ;
 	if (x < 0 || y < 0 || x >= data->w_width || y >= data->w_height)
 		return ;
@@ -59,6 +59,7 @@ void	ft_display_info(t_data *data)
 		"P: Toggle projection");
 	mlx_string_put(data->mlx, data->mlx_win, 10, 80, 0xFFFFFF,
 		"L: Toggle smooth lines");
+	mlx_string_put(data->mlx, data->mlx_win, 10, 100, 0xFFFFFF, "H: Help menu");
 }
 
 void	ft_check_map(t_data *data, char **argv)

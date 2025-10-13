@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structs.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/13 14:52:30 by feazeved          #+#    #+#             */
+/*   Updated: 2025/10/13 15:00:22 by feazeved         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTS_H
-# define STRUCTS_h
+# define STRUCTS_H
 
 typedef struct s_point
 {
@@ -40,6 +52,24 @@ typedef struct s_camera
 	int		parallel;
 }			t_camera;
 
+typedef struct s_keys
+{
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	q;
+	bool	e;
+	bool	plus;
+	bool	minus;
+	bool	up_arrow;
+	bool	down_arrow;
+	bool	left_arrow;
+	bool	right_arrow;
+	bool	page_down;
+	bool	page_up;
+}	t_keys;
+
 typedef struct s_data
 {
 	t_map		map;
@@ -56,6 +86,8 @@ typedef struct s_data
 	char		*line;
 	char		**split;
 	int			wu_line;
+	int			help_menu;
+	t_keys		keys;
 }				t_data;
 
 typedef struct s_wu_vars

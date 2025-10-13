@@ -6,7 +6,7 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:34:58 by feazeved          #+#    #+#             */
-/*   Updated: 2025/10/10 16:59:32 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:58:40 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@
 # include <string.h>
 # include <limits.h>
 # include <math.h>
+# include <stdbool.h>
 # include "libft.h"
 # include "mlx.h"
-#include "structs.h"
+# include "structs.h"
+# include <X11/keysym.h>
+
+# define GRAY 2829099
 
 // FDF ----------------------------------------------------------------------
 // --------------------------------------------------------------------------
@@ -58,13 +62,17 @@ void    ft_display_menu(t_data *data);
 void	ft_init_camera(t_data *data);
 void	ft_reset_camera(t_data *data);
 int		key_hook(int keycode, t_data *data);
-int		ft_handle_movement(int keycode, t_data *data);
-int		ft_handle_rotation(int keycode, t_data *data);
-int		ft_handle_zoom(int keycode, t_data *data);
+int		ft_handle_movement(t_data *data);
+int		ft_handle_rotation(t_data *data);
+int		ft_handle_zoom(t_data *data);
 int		mouse_hook(int keycode, int x, int y, t_data *data);
 int		handle_zoom(t_data *data, int keycode, float increase);
 void	handle_smooth_zoom(int *limit_in, int *limit_out, float increase);
 void	ft_set_zoom(t_data *data, int max_dimension);
+void	update(t_data *data);
+int     key_release(int keycode, t_data *data);
+int     key_press(int keycode, t_data *data);
+void    set_rotations(int keycode, t_data *data, bool set);
 
 // projection and rotations
 void	ft_project(t_point *point, t_camera *cam);

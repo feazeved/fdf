@@ -17,7 +17,7 @@ void	ft_draw_map(t_data *data, int y, int skip)
 	int	x;
 	int	p;
 
-	if (data->map.width > 200 || data->map.height > 200)
+	if (data->map.width >= 200 || data->map.height >= 200)
 		skip = 2;
 	if (data->map.width > 400 || data->map.height > 400)
 		skip = 3;
