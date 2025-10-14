@@ -26,7 +26,6 @@ void	ft_init_camera(t_data *data)
 	data->camera.offset_x = 0;
 	data->camera.offset_y = 0;
 	data->camera.z_scale = 0.25;
-	data->camera.rotate_speed = 0.01;
 	ft_set_zoom(data, max_dimension);
 	if (max_dimension <= 50)
 		data->camera.zoom = 50;
@@ -36,18 +35,6 @@ void	ft_init_camera(t_data *data)
 		data->camera.zoom = 4;
 	else
 		data->camera.zoom = 2;
-}
-
-void	ft_reset_camera(t_data *data)
-{
-	data->camera.angle_x = 0.5;
-	data->camera.angle_y = -0.5;
-	data->camera.angle_z = 0.523599;
-	data->camera.offset_x = 0;
-	data->camera.offset_y = 0;
-	data->camera.z_scale = 2.5;
-	data->camera.parallel = 0;
-	ft_init_camera(data);
 }
 
 void	ft_set_zoom(t_data *data, int max_dimension)

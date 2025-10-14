@@ -6,7 +6,7 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 19:34:58 by feazeved          #+#    #+#             */
-/*   Updated: 2025/10/13 14:58:40 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:27:22 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 // main e error
 void	ft_error(t_data *data, char *func, char *msg);
 void	ft_free_data(t_data *data);
-void	ft_help_menu(t_data *data);
 
 // parsing
 void	ft_parsing(t_data *data, int argc, char **argv);
@@ -56,24 +55,19 @@ int		ft_close_window(t_data *data);
 int		ft_render(t_data *data);
 void	ft_clear_image(t_data *data);
 void	ft_init_window(t_data *data);
-void	ft_display_info(t_data *data);
-void    ft_display_menu(t_data *data, int first_y, int last_y, int last_x);
 
 // camera and controls
 void	ft_init_camera(t_data *data);
-void	ft_reset_camera(t_data *data);
 int		key_hook(int keycode, t_data *data);
 int		ft_handle_movement(t_data *data);
-int		ft_handle_rotation(t_data *data);
 int		ft_handle_zoom(t_data *data);
 int		mouse_hook(int keycode, int x, int y, t_data *data);
 int		handle_zoom(t_data *data, int keycode, float increase);
 void	handle_smooth_zoom(int *limit_in, int *limit_out, float increase);
 void	ft_set_zoom(t_data *data, int max_dimension);
 void	update(t_data *data);
-int     key_release(int keycode, t_data *data);
-int     key_press(int keycode, t_data *data);
-void    set_rotations(int keycode, t_data *data, bool set);
+int		key_release(int keycode, t_data *data);
+int		key_press(int keycode, t_data *data);
 
 // projection and rotations
 void	ft_project(t_point *point, t_camera *cam);
@@ -92,16 +86,5 @@ void	ft_draw_horizontal(t_data *data, t_point a, t_point b);
 void	ft_draw_vertical(t_data *data, t_point a, t_point b);
 void	ft_drawline(t_data *data, t_point a, t_point b);
 void	ft_draw_map(t_data *data, int y, int skip);
-void	ft_draw_line_toggle(t_data *data, int p1, int p2);
-
-// xiaolin
-void	ft_draw_wu_line(t_data *data, t_point a, t_point b);
-float	ft_fpart(float x);
-float	ft_rfpart(float x);
-void	ft_swap_points(t_point *a, t_point *b);
-void	ft_swap_coords(int *a, int *b);
-int		ft_apply_brightness(int color, float brightness);
-void	ft_wu_first_endpoint(t_data *data, t_point a, t_wu_vars *v, int steep);
-void	ft_wu_second_endpoint(t_data *data, t_point b, t_wu_vars *v, int steep);
 
 #endif

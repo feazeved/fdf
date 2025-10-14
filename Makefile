@@ -13,7 +13,7 @@ NAME = fdf
 BONUS_NAME = fdf_bonus
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -O3 -Iincludes -Ilibft -I$(MLX_DIR)
+CFLAGS = -Wall -Wextra -Werror -O3 -Iincludes -Ilibft -I$(MLX_DIR) -g
 LFLAGS = -lmlx -lXext -lX11 -lm -lbsd
 
 SRC_DIR = srcs
@@ -28,9 +28,9 @@ LIBFT_LIB = $(LIBFT_DIR)/libft.a
 MLX_LIB = $(MLX_DIR)/libmlx_Linux.a
 
 SRC = fdf.c keys.c line_algorithm.c \
-	utils2.c color.c clean.c parsing.c \
-	transforms.c xiaolin_algorithm.c utils3.c \
-	camera.c xiaolin_utils.c xiaolin_utils2.c menus.c changes.c mlx_utils.c
+	utils.c color.c clean.c parsing.c \
+	transforms.c  utils2.c \
+	camera.c  changes.c mlx_utils.c
 
 BONUS_SRC = fdf_bonus.c keys_bonus.c line_algorithm_bonus.c \
 	utils_bonus.c color_bonus.c clean_bonus.c parsing_bonus.c \

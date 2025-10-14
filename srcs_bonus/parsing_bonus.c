@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 void	ft_parsing(t_data *data, int argc, char **argv)
 {
@@ -18,6 +18,7 @@ void	ft_parsing(t_data *data, int argc, char **argv)
 	{
 		ft_error(NULL, "Invalid input, you should do", "./fdf map");
 	}
+	data->fd = -1;
 	ft_check_map(data, argv);
 	ft_set_map_size(data, argv);
 	ft_set_numbers(0, data, argv);
@@ -36,6 +37,7 @@ void	ft_set_map_size(t_data *data, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		ft_error(data, "Open", strerror(errno));
+	data->fd = fd;
 	height = 0;
 	width = 0;
 	while (1)
@@ -62,6 +64,7 @@ void	ft_set_numbers(int y, t_data *data, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		ft_error(data, "Open", strerror(errno));
+	data->fd = fd;
 	data->map.points = ft_fdf_calloc(data->map.np, sizeof(t_point), data);
 	while (y < data->map.height)
 	{

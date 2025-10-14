@@ -29,6 +29,8 @@ void	ft_error(t_data *data, char *func, char *msg)
 
 void	ft_free_data(t_data *data)
 {
+	if (data->fd != -1)
+		close(data->fd);
 	if (data && data->map.points)
 		free(data->map.points);
 	if (data && data->line)

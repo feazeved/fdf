@@ -74,6 +74,7 @@ typedef struct s_keys
 typedef struct s_data
 {
 	t_map		map;
+	int			fd;
 	int			w_width;
 	int			w_height;
 	void		*mlx;

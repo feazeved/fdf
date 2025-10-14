@@ -6,11 +6,11 @@
 /*   By: feazeved <feazeved@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 22:29:29 by feazeved          #+#    #+#             */
-/*   Updated: 2025/10/13 22:29:58 by feazeved         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:05:25 by feazeved         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 int	ft_close_window(t_data *data)
 {

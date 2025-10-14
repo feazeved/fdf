@@ -29,21 +29,15 @@ void	ft_draw_map(t_data *data, int y, int skip)
 			p = y * data->map.width + x;
 			ft_project(&data->map.points[p], &data->camera);
 			if (x < data->map.width - skip)
-				ft_draw_line_toggle(data, p, p + skip);
+				ft_drawline(data, data->map.points[p],
+					data->map.points[p + skip]);
 			if (y < data->map.height - skip)
-				ft_draw_line_toggle(data, p, p + (skip * data->map.width));
+				ft_drawline(data, data->map.points[p],
+					data->map.points[p + (skip * data->map.width)]);
 			x += skip;
 		}
 		y += skip;
 	}
-}
-
-void	ft_draw_line_toggle(t_data *data, int p1, int p2)
-{
-	if (data->wu_line)
-		ft_draw_wu_line(data, data->map.points[p1], data->map.points[p2]);
-	else
-		ft_drawline(data, data->map.points[p1], data->map.points[p2]);
 }
 
 void	ft_drawline(t_data *data, t_point a, t_point b)

@@ -18,8 +18,6 @@ int	ft_render(t_data *data)
 	update(data);
 	ft_draw_map(data, 0, 1);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
-	ft_display_info(data);
-	ft_help_menu(data);
 	return (0);
 }
 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 void	ft_wu_first_endpoint(t_data *data, t_point a, t_wu_vars *v, int steep)
 {
